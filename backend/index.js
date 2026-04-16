@@ -22,8 +22,11 @@ const loggerMiddleware = require('./middleware/logger');
 
 const app = express();
 
-// Body parser & CORS
-app.use(cors());
+app.use(cors({
+    origin: "*",
+}));
+
+// Body parser
 app.use(bodyParser.json());
 app.use(express.json());
 

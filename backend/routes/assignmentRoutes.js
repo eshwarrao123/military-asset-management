@@ -23,10 +23,7 @@ router.get('/', protect, authorizeRoles('Admin', 'Commander'), async (req, res) 
     }
 });
 
-router.get("/", Assignment);
-
-
-// @desc    Assign asset to personnel
+// (Removed invalid route here)// @desc    Assign asset to personnel
 // @route   POST /api/assignments
 // @access  Private (Commander, Admin)
 
