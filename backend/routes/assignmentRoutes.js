@@ -23,9 +23,13 @@ router.get('/', protect, authorizeRoles('Admin', 'Commander'), async (req, res) 
     }
 });
 
+router.get("/", Assignment);
+
+
 // @desc    Assign asset to personnel
 // @route   POST /api/assignments
 // @access  Private (Commander, Admin)
+
 router.post('/', protect, authorizeRoles('Admin', 'Commander'), async (req, res) => {
     const session = await Inventory.startSession();
     session.startTransaction();
