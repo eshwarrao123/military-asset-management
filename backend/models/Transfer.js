@@ -23,7 +23,6 @@ const transferSchema = new mongoose.Schema(
             default: Date.now,
         },
         user: {
-            // Optional: User who initiated the transfer
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,
