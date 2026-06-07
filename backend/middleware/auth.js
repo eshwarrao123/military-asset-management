@@ -8,7 +8,6 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1];
 
-            // Demo mode parsing
             if (token.startsWith('demo-')) {
                 const parts = token.split('-');
                 const role = parts[1];
@@ -36,7 +35,6 @@ const protect = async (req, res, next) => {
             return res.status(401).json({ message: 'Not authorized, token failed' });
         }
     } else {
-        // Fallback for tests if absolutely no token is provided to avoid crashing UI silently
         req.user = {
             _id: '000000000000000000000000',
             name: 'Demo Admin',
