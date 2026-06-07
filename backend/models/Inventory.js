@@ -21,7 +21,6 @@ const inventorySchema = new mongoose.Schema(
     }
 );
 
-// Compound index to ensure each base has unique asset types
 inventorySchema.index({ baseName: 1, assetType: 1 }, { unique: true });
 
 const Inventory = mongoose.model('Inventory', inventorySchema);
