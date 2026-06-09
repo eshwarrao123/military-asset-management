@@ -49,7 +49,6 @@ router.post('/', protect, authorizeRoles('Admin', 'Commander'), async (req, res)
             return res.status(400).json({ message: 'Quantity must be greater than 0' });
         }
 
-        // Deduct from base inventory
         const sourceInventory = await Inventory.findOne({ baseName: base, assetType }).session(session);
 
         if (!sourceInventory || sourceInventory.quantity < quantity) {
@@ -59,7 +58,6 @@ router.post('/', protect, authorizeRoles('Admin', 'Commander'), async (req, res)
         sourceInventory.quantity -= quantity;
         await sourceInventory.save({ session });
 
-        // Create Assignment record
         const assignment = new Assignment({
             assetType,
             quantity,
