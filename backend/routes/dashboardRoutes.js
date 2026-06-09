@@ -13,19 +13,16 @@ router.get('/', protect, async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
 
-        // Parse filters
-        const start = startDate ? new Date(startDate) : new Date(0); // Epoch
+        const start = startDate ? new Date(startDate) : new Date(0); 
         const end = endDate ? new Date(endDate) : new Date();
 
         let baseFilter = req.query.base ? req.query.base.trim().toLowerCase() : null;
         let equipmentType = req.query.equipmentType ? req.query.equipmentType.trim().toLowerCase() : null;
 
-        // RBAC: If Commander, strictly override base
         if (req.user.role === 'Commander') {
             baseFilter = req.user.base ? req.user.base.trim().toLowerCase() : null;
         }
 
-        // Match clauses
         const purchaseMatch = { status: 'Approved' };
         if (equipmentType) purchaseMatch.assetType = equipmentType;
 
@@ -45,7 +42,6 @@ router.get('/', protect, async (req, res) => {
             assignmentMatch.assetType = equipmentType;
         }
 
-        // 1. PURCHASES (Aggregate from Users linked by Base)
         const purchasePipeline = [
             { $match: purchaseMatch },
             {
@@ -79,7 +75,6 @@ router.get('/', protect, async (req, res) => {
             }
         });
 
-        // 2. TRANSFERS IN
         const transfersInPipeline = [
             { $match: transferInMatch },
             {
@@ -99,7 +94,6 @@ router.get('/', protect, async (req, res) => {
             }
         ];
 
-        // 3. TRANSFERS OUT
         const transfersOutPipeline = [
             { $match: transferOutMatch },
             {
@@ -119,7 +113,6 @@ router.get('/', protect, async (req, res) => {
             }
         ];
 
-        // 4. ASSIGNMENTS
         const assignmentsPipeline = [
             { $match: assignmentMatch },
             {
