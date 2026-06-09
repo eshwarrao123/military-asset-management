@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema(
             default: 'Logistics',
         },
         base: {
-            // Associated base for Commander or Logistics
             type: String,
             required: false,
         },
@@ -32,7 +31,6 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-// Password hashing middleware
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
@@ -41,7 +39,6 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Compare password
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
